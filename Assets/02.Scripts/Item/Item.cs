@@ -11,10 +11,10 @@ public enum ItemType
 }
 public class Item : MonoBehaviour
 {
-    public float _timer = 0f; // ½Ã°£À» Ã¼Å©ÇÒ º¯¼ö
+    public float _timer = 0f; // ì‹œê°„ì„ ì²´í¬í•  ë³€ìˆ˜
     public float _timer2 = 0f;
 
-    public ItemType MyType;    // 0: Ã¼·ÂÀ» ¿Ã·ÁÁÖ´Â Å¸ÀÔ, 1: ½ºÇÇµå¸¦ ¿Ã·ÁÁÖ´Â Å¸ÀÔ
+    public ItemType MyType;    // 0: ì²´ë ¥ì„ ì˜¬ë ¤ì£¼ëŠ” íƒ€ì…, 1: ìŠ¤í”¼ë“œë¥¼ ì˜¬ë ¤ì£¼ëŠ” íƒ€ì…
 
     public Animator MyAnimator;
 
@@ -39,25 +39,25 @@ public class Item : MonoBehaviour
         Debug.Log("Clooison Enter");
     }
 
-    // (´Ù¸¥ Äİ¶óÀÌ´õ¿¡ ÀÇÇØ) Æ®¸®°Å°¡ ¹ßµ¿ÇÒ ¶§
+    // (ë‹¤ë¥¸ ì½œë¼ì´ë”ì— ì˜í•´) íŠ¸ë¦¬ê±°ê°€ ë°œë™í•  ë•Œ
     private void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        Debug.Log("Æ®¸®°Å ½ÃÀÛ");
+        Debug.Log("íŠ¸ë¦¬ê±° ì‹œì‘");
 
         // Destroy(this.gameObject);
 
-        // 1. ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ® ¹Ş¾Æ¿À±â
+        // 1. í”Œë ˆì´ì–´ ìŠ¤í¬ë¦½íŠ¸ ë°›ì•„ì˜¤ê¸°
         // GameObject.playerGameObject = GameObject.Find("Player");
         // Player player = playerGameObject.GetComponent<Player>();
         Player player = otherCollider.gameObject.GetComponent<Player>();
 
-        // 2. ÇÃ·¹ÀÌ¾î Ã¼·Â ¿Ã¸®±â
-        player.Health++;
-        Debug.Log($"ÇÃ·¹ÀÌ¾î Ã¼·Â : {player.Health}");
+        // 2. í”Œë ˆì´ì–´ ì²´ë ¥ ì˜¬ë¦¬ê¸°
+        player.SetHealth(player.GetHealth() + 1);
+        Debug.Log($"í”Œë ˆì´ì–´ ì²´ë ¥ : {player.GetHealth()}");
         
     }
 
-    // (´Ù¸¥ Äİ¶óÀÌ´õ¿¡ ÀÇÇØ) Æ®¸®°Å°¡ ¹ßµ¿ ÁßÀÏ ¶§
+    // (ë‹¤ë¥¸ ì½œë¼ì´ë”ì— ì˜í•´) íŠ¸ë¦¬ê±°ê°€ ë°œë™ ì¤‘ì¼ ë•Œ
     private void OnTriggerStay2D(Collider2D otherCollider)
     {
         _timer += Time.deltaTime;
@@ -66,7 +66,7 @@ public class Item : MonoBehaviour
             if (MyType == ItemType.Health)
             {
                 Player player = otherCollider.GetComponent<Player>();
-                player.Health += 1;
+                player.SetHealth(player.GetHealth() + 1);
 
                 Destroy(this.gameObject);
 
@@ -75,9 +75,10 @@ public class Item : MonoBehaviour
             }
             else if (MyType == ItemType.Speed)
             {
-                // Å¸ÀÔÀÌ 1ÀÌ¸é ÇÃ·¹ÀÌ¾îÀÇ ½ºÇÇµå ¿Ã·ÁÁÖ±â
+                // íƒ€ì…ì´ 1ì´ë©´ í”Œë ˆì´ì–´ì˜ ìŠ¤í”¼ë“œ ì˜¬ë ¤ì£¼ê¸°
                 PlayerMove playermove = otherCollider.GetComponent<PlayerMove>();
-                playermove.Speed += 1;
+                playermove.SetSpeed(playermove.GetSpeed() + 1);
+                playermove.AddSpeed(1);
 
                 Destroy(this.gameObject);
 
@@ -89,17 +90,17 @@ public class Item : MonoBehaviour
             
         //}
         
-        // Debug.Log("Æ®¸®°Å Áß");
+        // Debug.Log("íŠ¸ë¦¬ê±° ì¤‘");
     }
 
-    // (´Ù¸¥ Äİ¶óÀÌ´õ¿¡ ÀÇÇØ) Æ®¸®°Å°¡ ³¡³µÀ» ¶§
+    // (ë‹¤ë¥¸ ì½œë¼ì´ë”ì— ì˜í•´) íŠ¸ë¦¬ê±°ê°€ ëë‚¬ì„ ë•Œ
     private void OnTriggerExit2D(Collider2D otherCollider)
     {
         _timer = 0f;
-        Debug.Log("Æ®¸®°Å Á¾·á");
+        Debug.Log("íŠ¸ë¦¬ê±° ì¢…ë£Œ");
     }
 
-    // ¾ÆÀÌÅÛÀÌ Á¤ÁöÇØ ÀÖ´Ù°¡, 3ÃÊ µ¿¾È ¾È ¸ÔÀ¸¸é ÇÃ·¹ÀÌ¾î¿¡°Ô ´Ù°¡°¡±â
+    // ì•„ì´í…œì´ ì •ì§€í•´ ìˆë‹¤ê°€, 3ì´ˆ ë™ì•ˆ ì•ˆ ë¨¹ìœ¼ë©´ í”Œë ˆì´ì–´ì—ê²Œ ë‹¤ê°€ê°€ê¸°
     private Vector2 _dir;
     // private GameObject _target;
     public float Speed;

@@ -72,10 +72,10 @@ public class Enemy : MonoBehaviour
             // 1. 각도를 구한다.
             // tan@ = y/x   -> @ = y/x*atan
             float radian = Mathf.Atan2(_dir.y, _dir.x);   // * Mathf.Rad2Deg;
-            Debug.Log(radian);  // 호도법 -> 라디안 값
+            // Debug.Log(radian);  // 호도법 -> 라디안 값
 
             float degree = radian * Mathf.Rad2Deg;
-            Debug.Log(degree);
+            // Debug.Log(degree);
 
             // 2. 각도에 맞게 회전한다.
             // transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90)); // 이미지 리소스에 맞게 90도를 더한다.
@@ -99,10 +99,10 @@ public class Enemy : MonoBehaviour
             // 1. 각도를 구한다.
             // tan@ = y/x   -> @ = y/x*atan
             float radian = Mathf.Atan2(_dir.y, _dir.x);   // * Mathf.Rad2Deg;
-            Debug.Log(radian);  // 호도법 -> 라디안 값
+            // Debug.Log(radian);  // 호도법 -> 라디안 값
 
             float degree = radian * Mathf.Rad2Deg;
-            Debug.Log(degree);
+            // Debug.Log(degree);
 
             // 2. 각도에 맞게 회전한다.
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90)); // 이미지 리소스에 맞게 90도를 더한다.
@@ -133,35 +133,35 @@ public class Enemy : MonoBehaviour
         Debug.Log("Enter");
 
         // 충돌한 게임 오브젝트의 태그를 확인
-        Debug.Log(collision.collider.tag);     // Player or Bullet
+        Debug.Log(collision.collider.tag);    // Player or Bullet
 
-        
 
         // 적과 충돌, Health가 0이 되면 죽음
         if (collision.collider.tag == "Player")
         {
-            
+
             Player player = collision.collider.GetComponent<Player>();
-            
-
-            player.Health--;
-
-            
 
 
-            if (0 >= player.Health)
+            player.SetHealth(player.GetHealth() - 1);
+
+
+
+
+            if (0 >= player.GetHealth())
             {
-                
+
                 Destroy(collision.collider.gameObject);
             }
 
-            
+
             Destroy(gameObject);
 
 
         }
+
         // 주 총알은 적을 1번, 보조 총알은 적을 2번 때려야 죽음
-        else if (collision.collider.tag == "Bullet") 
+        if (collision.collider.tag == "Bullet") 
         {
             Bullet bullet = collision.collider.GetComponent<Bullet>();
 
@@ -257,9 +257,10 @@ public class Enemy : MonoBehaviour
         // 2. ScoreManager 게임 오브젝트에서 ScoreManager 스크립트 컴포넌트를 얻어온다.
         ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
         // 3. 컴포넌트의 Score 속성을 증가시킨다.
-        int score = scoreManager.GetScore();
-        scoreManager.SetScore(score + 1);
-        Debug.Log($"스코어:{scoreManager.GetScore()}");
+        // int score = scoreManager.GetScore();
+        // scoreManager.SetScore(score + 1);
+        scoreManager.SetScore();
+        // Debug.Log($"스코어:{scoreManager.GetScore()}");
     }
     public void MakeItem() 
     {

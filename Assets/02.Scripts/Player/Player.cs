@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int Health = 3;
+    private int _health = 3;
 
     public AudioSource PlayerSource;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        //ÇÃ·¹ÀÌ¾î¿ÍÀÇ Ãæµ¹ Ã¼Å©
+        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ Ã¼Å©
         if (collision.collider.tag == "Enemy")
         {
             PlayerSource.Play();
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         GameObject P = GameObject.Find("SoundController_Player");
         PlayerSource = P.GetComponent<AudioSource>();
 
-        // GetComponent<ÄÄÆ÷³ÍÆ® Å¸ÀÔ>(); -> °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿À´Â ¸Þ¼­µå
+        // GetComponent<ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½>(); -> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 
         // SpriteRenderer sr = GetComponent<SpriteRenderer>();
         // sr.color = Color.white;
@@ -37,4 +37,14 @@ public class Player : MonoBehaviour
         // playerMove.Speed = 5f;
         // Debug.Log(playerMove.Speed);
     }
+
+    public int GetHealth() 
+    {
+        return _health;
+    }
+    public void SetHealth(int health) 
+    {
+        _health = health;
+    }
+    
 }
