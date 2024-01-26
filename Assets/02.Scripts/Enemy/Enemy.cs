@@ -4,7 +4,7 @@ using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEditor.Progress;
 using static UnityEngine.GraphicsBuffer;
-public enum EnemyType // Àû Å¸ÀÔ ¿­°ÅÇü
+public enum EnemyType // ì  íƒ€ì… ì—´ê±°í˜•
 {
     Basic,
     Target,
@@ -12,9 +12,9 @@ public enum EnemyType // Àû Å¸ÀÔ ¿­°ÅÇü
 }
 public class Enemy : MonoBehaviour
 {
-    // ¸ñÇ¥ : ÀûÀ» ¾Æ·¡·Î ÀÌµ¿½ÃÅ°°í ½Í´Ù.
-    // ¼Ó¼º : 
-    //  - ¼Ó·Â
+    // ëª©í‘œ : ì ì„ ì•„ë˜ë¡œ ì´ë™ì‹œí‚¤ê³  ì‹¶ë‹¤.
+    // ì†ì„± : 
+    //  - ì†ë ¥
     
     public float Speed = 2.5f;
     public int Health = 2;
@@ -24,14 +24,14 @@ public class Enemy : MonoBehaviour
 
     public AudioSource EnemySource;
 
-    // ¸ñÇ¥ : 
-    // EnemyType.BasicÅ¸ÀÔ : ¾Æ·¡·Î ÀÌµ¿ 
-    // EnemyType.Target Å¸ÀÔ : Ã³À½ ÅÂ¾î³µÀ» ¶§ ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Â ¹æÇâÀ¸·Î ÀÌµ¿
-    // ¼Ó¼º
-    //  - EnemyType Å¸ÀÔ
-    // ±¸Çö ¼ø¼­ :
-    // 1. ½ÃÀÛÇÒ ¶§ ¹æÇâÀ» ±¸ÇÑ´Ù. ( ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Â ¹æÇâ )
-    // 2. ¹æÇâÀ» ÇâÇØ ÀÌµ¿ÇÑ´Ù.
+    // ëª©í‘œ : 
+    // EnemyType.Basicíƒ€ì… : ì•„ë˜ë¡œ ì´ë™ 
+    // EnemyType.Target íƒ€ì… : ì²˜ìŒ íƒœì–´ë‚¬ì„ ë•Œ í”Œë ˆì´ì–´ê°€ ìˆëŠ” ë°©í–¥ìœ¼ë¡œ ì´ë™
+    // ì†ì„±
+    //  - EnemyType íƒ€ì…
+    // êµ¬í˜„ ìˆœì„œ :
+    // 1. ì‹œì‘í•  ë•Œ ë°©í–¥ì„ êµ¬í•œë‹¤. ( í”Œë ˆì´ì–´ê°€ ìˆëŠ” ë°©í–¥ )
+    // 2. ë°©í–¥ì„ í–¥í•´ ì´ë™í•œë‹¤.
 
     public EnemyType EType;
 
@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
 
 
 
-    // ½ÃÀÛÇÒ ¶§
+    // ì‹œì‘í•  ë•Œ
     void Start()
     {
         MyAnimator = GetComponent<Animator>();
@@ -53,32 +53,32 @@ public class Enemy : MonoBehaviour
         GameObject I = GameObject.Find("SoundController_Enemy");
         EnemySource = I.GetComponent<AudioSource>();
 
-        // Ä³½Ì : ÀÚÁÖ ¾²´Â µ¥ÀÌÅÍ¸¦ ´õ °¡±î¿î Àå¼Ò¿¡ ÀúÀåÇØµÎ°í ÇÊ¿äÇÒ¶§ °¡Á®´Ù ¾²´Â °Å
-        // ½ÃÀÛÇÒ ¶§ ÇÃ·¹ÀÌ¾î¸¦ Ã£¾Æ¼­ ±â¾ïÇØµĞ´Ù.
+        // ìºì‹± : ìì£¼ ì“°ëŠ” ë°ì´í„°ë¥¼ ë” ê°€ê¹Œìš´ ì¥ì†Œì— ì €ì¥í•´ë‘ê³  í•„ìš”í• ë•Œ ê°€ì ¸ë‹¤ ì“°ëŠ” ê±°
+        // ì‹œì‘í•  ë•Œ í”Œë ˆì´ì–´ë¥¼ ì°¾ì•„ì„œ ê¸°ì–µí•´ë‘”ë‹¤.
         _target = GameObject.Find("Player");
 
         if (EType == EnemyType.Target)
         {
-            // 1.½ÃÀÛÇÒ ¶§ ¹æÇâÀ» ±¸ÇÑ´Ù. (ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Â ¹æÇâ)
+            // 1.ì‹œì‘í•  ë•Œ ë°©í–¥ì„ êµ¬í•œë‹¤. (í”Œë ˆì´ì–´ê°€ ìˆëŠ” ë°©í–¥)
 
-            // 1-1. ÇÃ·¹ÀÌ¾î¸¦ Ã£´Â´Ù.
+            // 1-1. í”Œë ˆì´ì–´ë¥¼ ì°¾ëŠ”ë‹¤.
             // GameObject target = GameObject.Find("Player"); -> _target = GameObject.Find("Player");
             // GameObject.FindGameObjectWithTag("Player");
 
-            // 1-2. ¹æÇâÀ» ±¸ÇÑ´Ù. ( target - me )
+            // 1-2. ë°©í–¥ì„ êµ¬í•œë‹¤. ( target - me )
             _dir = _target.transform.position - this.transform.position;
             _dir.Normalize();
 
-            // 1. °¢µµ¸¦ ±¸ÇÑ´Ù.
+            // 1. ê°ë„ë¥¼ êµ¬í•œë‹¤.
             // tan@ = y/x   -> @ = y/x*atan
             float radian = Mathf.Atan2(_dir.y, _dir.x);   // * Mathf.Rad2Deg;
-            Debug.Log(radian);  // È£µµ¹ı -> ¶óµğ¾È °ª
+            Debug.Log(radian);  // í˜¸ë„ë²• -> ë¼ë””ì•ˆ ê°’
 
             float degree = radian * Mathf.Rad2Deg;
             Debug.Log(degree);
 
-            // 2. °¢µµ¿¡ ¸Â°Ô È¸ÀüÇÑ´Ù.
-            // transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90)); // ÀÌ¹ÌÁö ¸®¼Ò½º¿¡ ¸Â°Ô 90µµ¸¦ ´õÇÑ´Ù.
+            // 2. ê°ë„ì— ë§ê²Œ íšŒì „í•œë‹¤.
+            // transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90)); // ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ì— ë§ê²Œ 90ë„ë¥¼ ë”í•œë‹¤.
             transform.eulerAngles = new Vector3(0, 0, degree + 90);
 
 
@@ -96,48 +96,48 @@ public class Enemy : MonoBehaviour
             _dir = _target.transform.position - this.transform.position;
             _dir.Normalize();
 
-            // 1. °¢µµ¸¦ ±¸ÇÑ´Ù.
+            // 1. ê°ë„ë¥¼ êµ¬í•œë‹¤.
             // tan@ = y/x   -> @ = y/x*atan
             float radian = Mathf.Atan2(_dir.y, _dir.x);   // * Mathf.Rad2Deg;
-            Debug.Log(radian);  // È£µµ¹ı -> ¶óµğ¾È °ª
+            Debug.Log(radian);  // í˜¸ë„ë²• -> ë¼ë””ì•ˆ ê°’
 
             float degree = radian * Mathf.Rad2Deg;
             Debug.Log(degree);
 
-            // 2. °¢µµ¿¡ ¸Â°Ô È¸ÀüÇÑ´Ù.
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90)); // ÀÌ¹ÌÁö ¸®¼Ò½º¿¡ ¸Â°Ô 90µµ¸¦ ´õÇÑ´Ù.
+            // 2. ê°ë„ì— ë§ê²Œ íšŒì „í•œë‹¤.
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90)); // ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ì— ë§ê²Œ 90ë„ë¥¼ ë”í•œë‹¤.
         }
-        // ±¸Çö ¼ø¼­
-        // 1. ¹æÇâ ±¸ÇÏ±â
+        // êµ¬í˜„ ìˆœì„œ
+        // 1. ë°©í–¥ êµ¬í•˜ê¸°
         // Vector2 dir = Vector2.down;
 
-        // 2. ÀÌµ¿ ½ÃÅ²´Ù.
+        // 2. ì´ë™ ì‹œí‚¨ë‹¤.
         transform.position += (Vector3)(_dir * Speed) * Time.deltaTime;
     }
 
 
 
-    // ¸ñÇ¥ : Ãæµ¹ÇÏ¸é Àû°ú ÇÃ·¹ÀÌ¾î¸¦ »èÁ¦ÇÏ°í ½Í´Ù.
-    // ±¸Çö ¼ø¼­ : 
-    // 1. ¸¸¾à¿¡ Ãæµ¹ÀÌ ÀÏ¾î³ª¸é
-    // 2. Àû°ú ÇÃ·¹ÀÌ¾î¸¦ »èÁ¦ÇÑ´Ù.
+    // ëª©í‘œ : ì¶©ëŒí•˜ë©´ ì ê³¼ í”Œë ˆì´ì–´ë¥¼ ì‚­ì œí•˜ê³  ì‹¶ë‹¤.
+    // êµ¬í˜„ ìˆœì„œ : 
+    // 1. ë§Œì•½ì— ì¶©ëŒì´ ì¼ì–´ë‚˜ë©´
+    // 2. ì ê³¼ í”Œë ˆì´ì–´ë¥¼ ì‚­ì œí•œë‹¤.
 
 
     
-    // Ãæµ¹ÀÌ ÀÏ¾î³ª¸é È£ÃâµÇ´Â ÀÌº¥Æ® ÇÔ¼ö
+    // ì¶©ëŒì´ ì¼ì–´ë‚˜ë©´ í˜¸ì¶œë˜ëŠ” ì´ë²¤íŠ¸ í•¨ìˆ˜
     private void OnCollisionEnter2D(Collision2D collision) 
     {
 
 
-        // Ãæµ¹À» ½ÃÀÛÇßÀ» ¶§
+        // ì¶©ëŒì„ ì‹œì‘í–ˆì„ ë•Œ
         Debug.Log("Enter");
 
-        // Ãæµ¹ÇÑ °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ ÅÂ±×¸¦ È®ÀÎ
+        // ì¶©ëŒí•œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ì˜ íƒœê·¸ë¥¼ í™•ì¸
         Debug.Log(collision.collider.tag);     // Player or Bullet
 
         
 
-        // Àû°ú Ãæµ¹, Health°¡ 0ÀÌ µÇ¸é Á×À½
+        // ì ê³¼ ì¶©ëŒ, Healthê°€ 0ì´ ë˜ë©´ ì£½ìŒ
         if (collision.collider.tag == "Player")
         {
             
@@ -160,7 +160,7 @@ public class Enemy : MonoBehaviour
 
 
         }
-        // ÁÖ ÃÑ¾ËÀº ÀûÀ» 1¹ø, º¸Á¶ ÃÑ¾ËÀº ÀûÀ» 2¹ø ¶§·Á¾ß Á×À½
+        // ì£¼ ì´ì•Œì€ ì ì„ 1ë²ˆ, ë³´ì¡° ì´ì•Œì€ ì ì„ 2ë²ˆ ë•Œë ¤ì•¼ ì£½ìŒ
         else if (collision.collider.tag == "Bullet") 
         {
             Bullet bullet = collision.collider.GetComponent<Bullet>();
@@ -179,7 +179,7 @@ public class Enemy : MonoBehaviour
 
             if (Health <= 0)
             {
-                // ³ªÁ×ÀÚ
+                // ë‚˜ì£½ì
 
                 EnemySource.Play();
                 Death();
@@ -195,7 +195,7 @@ public class Enemy : MonoBehaviour
                
             }
            
-            // À§¿¡ if¶û °°Àº °Å
+            // ìœ„ì— ifë‘ ê°™ì€ ê±°
             /**switch (bullet.BType)
             {
                 case BulletType.Main:
@@ -214,10 +214,10 @@ public class Enemy : MonoBehaviour
         }
 
 
-        // 2. Ãæµ¹ÇÑ ³Ê¿Í ³ª¸¦ »èÁ¦ÇÑ´Ù.
-        // ³Ê Á×°í
+        // 2. ì¶©ëŒí•œ ë„ˆì™€ ë‚˜ë¥¼ ì‚­ì œí•œë‹¤.
+        // ë„ˆ ì£½ê³ 
         // Destroy(collision.collider.gameObject);
-        // ³ª Á×ÀÚ
+        // ë‚˜ ì£½ì
         // Destroy(gameObject);
 
 
@@ -231,7 +231,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        // Ãæµ¹ ÁßÀÏ ¶§ ¸Å¹ø
+        // ì¶©ëŒ ì¤‘ì¼ ë•Œ ë§¤ë²ˆ
         Debug.Log("Stay");
 
         
@@ -241,7 +241,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // Ãæµ¹ÀÌ ³¡³µÀ» ¶§
+        // ì¶©ëŒì´ ëë‚¬ì„ ë•Œ
         Debug.Log("Exit");
     }
 
@@ -251,52 +251,31 @@ public class Enemy : MonoBehaviour
         GameObject vfx = Instantiate(ExplosionVFXPrefab);
         vfx.transform.position = this.transform.position;
 
-        // ¸ñÇ¥ : ½ºÄÚ¾î¸¦ Áõ°¡½ÃÅ°°í ½Í´Ù.
-        // 1. ¾À¿¡¼­ ScoreManager °ÔÀÓ ¿ÀºêÁ§Æ®¸¦ Ã£¾Æ¿Â´Ù.
+        // ëª©í‘œ : ìŠ¤ì½”ì–´ë¥¼ ì¦ê°€ì‹œí‚¤ê³  ì‹¶ë‹¤.
+        // 1. ì”¬ì—ì„œ ScoreManager ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ì•„ì˜¨ë‹¤.
         GameObject smGameObject = GameObject.Find("ScoreManager");
-        // 2. ScoreManager °ÔÀÓ ¿ÀºêÁ§Æ®¿¡¼­ ScoreManager ½ºÅ©¸³Æ® ÄÄÆ÷³ÍÆ®¸¦ ¾ò¾î¿Â´Ù.
+        // 2. ScoreManager ê²Œì„ ì˜¤ë¸Œì íŠ¸ì—ì„œ ScoreManager ìŠ¤í¬ë¦½íŠ¸ ì»´í¬ë„ŒíŠ¸ë¥¼ ì–»ì–´ì˜¨ë‹¤.
         ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
-        // 3. ÄÄÆ÷³ÍÆ®ÀÇ Score ¼Ó¼ºÀ» Áõ°¡½ÃÅ²´Ù.
-        scoreManager.Score += 1;
-        Debug.Log($"½ºÄÚ¾î:{scoreManager.Score}");
-
-        // 4. ½ºÄÚ¾î¸¦ È­¸é¿¡ Ç¥½ÃÇÑ´Ù.
-        scoreManager.ScoreTextUI.text = $"Á¡¼ö : {scoreManager.Score}";
-
-        // ¸ñÇ¥ : ÃÖ°í Á¡¼ö¸¦ °»½ÅÇÏ°í UI¿¡ Ç¥½ÃÇÏ°í ½Í´Ù.
-        // 1. ¸¸¾à¿¡ ÇöÀç Á¡¼ö°¡ ÃÖ°í Á¡¼öº¸´Ù Å©´Ù¸é
-        if (scoreManager.Score > scoreManager.BestScore) 
-        {
-            // 2. ÃÖ°í Á¡¼ö¸¦ °»½ÅÇÏ°í,
-            scoreManager.BestScore = scoreManager.Score;
-
-            // ¸ñÇ¥ : ÃÖ°í Á¡¼ö¸¦ ÀúÀå
-            // 'PlayerPrefs' Å¬·¡½º¸¦ »ç¿ë
-            // -> µ¥ÀÌÅÍ¸¦ 'Å°(key)'¿Í '°ª(Value)' ÇüÅÂ·Î ÀúÀåÇÏ´Â Å¬·¡½ºÀÔ´Ï´Ù.
-            // ÀúÀåÇÒ ¼ö ÀÖ´Â µ¥ÀÌÅÍ Å¸ÀÔ : int, float, string
-            // Å¸ÀÔº°·Î ÀúÀå/·Îµå°¡ °¡´ÉÇÑ Set/Get ¸Ş¼­µå°¡ ÀÖ´Ù.
-            PlayerPrefs.SetInt("BestScore", scoreManager.BestScore);
-
-
-            // 3. UI¿¡ Ç¥½ÃÇÑ´Ù.
-            scoreManager.BestScoreTextUI.text = $"ÃÖ°í Á¡¼ö : {scoreManager.BestScore}";
-        }
+        // 3. ì»´í¬ë„ŒíŠ¸ì˜ Score ì†ì„±ì„ ì¦ê°€ì‹œí‚¨ë‹¤.
+        int score = scoreManager.GetScore();
+        scoreManager.SetScore(score + 1);
+        Debug.Log($"ìŠ¤ì½”ì–´:{scoreManager.GetScore()}");
     }
     public void MakeItem() 
     {
-        // ¸ñÇ¥ : 50% È®·ü·Î Ã¼·Â ¿Ã·ÁÁÖ´Â ¾ÆÀÌÅÛ, 50% È®·ü·Î ÀÌµ¿¼Óµµ ¿Ã·ÁÁÖ´Â ¾ÆÀÌÅÛ
+        // ëª©í‘œ : 50% í™•ë¥ ë¡œ ì²´ë ¥ ì˜¬ë ¤ì£¼ëŠ” ì•„ì´í…œ, 50% í™•ë¥ ë¡œ ì´ë™ì†ë„ ì˜¬ë ¤ì£¼ëŠ” ì•„ì´í…œ
         if (Random.Range(0, 2) == 0)
         {
-            // - Ã¼·Â ¿Ã·ÁÁÖ´Â ¾ÆÀÌÅÛ ¸¸µé°í
+            // - ì²´ë ¥ ì˜¬ë ¤ì£¼ëŠ” ì•„ì´í…œ ë§Œë“¤ê³ 
             GameObject item = Instantiate(Item_HealthPrefab);
-            // - À§Ä¡¸¦ ³ªÀÇ À§Ä¡·Î ¼öÁ¤
+            // - ìœ„ì¹˜ë¥¼ ë‚˜ì˜ ìœ„ì¹˜ë¡œ ìˆ˜ì •
             item.transform.position = this.transform.position;
         }
         else
         {
-            // -ÀÌµ¿¼Óµµ ¿Ã·ÁÁÖ´Â ¾ÆÀÌÅÛ ¸¸µé°í
+            // -ì´ë™ì†ë„ ì˜¬ë ¤ì£¼ëŠ” ì•„ì´í…œ ë§Œë“¤ê³ 
             GameObject item = Instantiate(Item_SpeedPrefab);
-            // - À§Ä¡¸¦ ³ªÀÇ À§Ä¡·Î ¼öÁ¤
+            // - ìœ„ì¹˜ë¥¼ ë‚˜ì˜ ìœ„ì¹˜ë¡œ ìˆ˜ì •
             item.transform.position = this.transform.position;
         }
     }
