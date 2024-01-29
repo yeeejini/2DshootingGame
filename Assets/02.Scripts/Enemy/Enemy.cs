@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEditor.Progress;
 using static UnityEngine.GraphicsBuffer;
@@ -139,14 +140,9 @@ public class Enemy : MonoBehaviour
         // 적과 충돌, Health가 0이 되면 죽음
         if (collision.collider.tag == "Player")
         {
-
             Player player = collision.collider.GetComponent<Player>();
 
-
             player.SetHealth(player.GetHealth() - 1);
-
-
-
 
             if (0 >= player.GetHealth())
             {
@@ -155,17 +151,14 @@ public class Enemy : MonoBehaviour
             }
 
 
+
             Destroy(gameObject);
-
-
         }
 
         // 주 총알은 적을 1번, 보조 총알은 적을 2번 때려야 죽음
         if (collision.collider.tag == "Bullet") 
         {
             Bullet bullet = collision.collider.GetComponent<Bullet>();
-
-            
 
             if (bullet.BType == BulletType.Main)
             {
@@ -175,24 +168,17 @@ public class Enemy : MonoBehaviour
             {
                 Health -= 1;
             }
-            
 
             if (Health <= 0)
             {
                 // 나죽자
-
                 EnemySource.Play();
                 Death();
-
                 MakeItem();
-
             }
             else 
             {
                 MyAnimator.Play("Hit");
-                
-                
-               
             }
            
             // 위에 if랑 같은 거
@@ -209,11 +195,7 @@ public class Enemy : MonoBehaviour
                     break;
                 }
             }**/
-
-
         }
-
-
         // 2. 충돌한 너와 나를 삭제한다.
         // 너 죽고
         // Destroy(collision.collider.gameObject);
@@ -233,11 +215,7 @@ public class Enemy : MonoBehaviour
     {
         // 충돌 중일 때 매번
         Debug.Log("Stay");
-
-        
     }
-
-
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -253,14 +231,18 @@ public class Enemy : MonoBehaviour
 
         // 목표 : 스코어를 증가시키고 싶다.
         // 1. 씬에서 ScoreManager 게임 오브젝트를 찾아온다.
-        GameObject smGameObject = GameObject.Find("ScoreManager");
+        // GameObject smGameObject = GameObject.Find("ScoreManager");
         // 2. ScoreManager 게임 오브젝트에서 ScoreManager 스크립트 컴포넌트를 얻어온다.
-        ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
+        // ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
         // 3. 컴포넌트의 Score 속성을 증가시킨다.
         // int score = scoreManager.GetScore();
         // scoreManager.SetScore(score + 1);
-        scoreManager.SetScore();
+        // scoreManager.SetScore();
         // Debug.Log($"스코어:{scoreManager.GetScore()}");
+
+        // 싱글톤 객체 참조로 변경
+        ScoreManager.Instance.AddScore();
+        
     }
     public void MakeItem() 
     {
