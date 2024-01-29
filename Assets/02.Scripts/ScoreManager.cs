@@ -36,8 +36,8 @@ public class ScoreManager : MonoBehaviour
     public int BestScore = 0;
 
     // ScoreManager가 점수를 관리하는 유일한 매니저(관리자)이므로 싱글톤을 적용하는게 편하다.
-    public static ScoreManager Instance;  // ScoreManager 객체
-
+    public static ScoreManager Instance { get; private set; }  // ScoreManager 객체
+                                        // public 이기 때문에 private 원하면 앞에 붙여줌
     private void Awake()
     {
         // Debug.Log("ScoreManager 객체의 Awake 호출!");
@@ -97,7 +97,7 @@ public class ScoreManager : MonoBehaviour
 
 
     // 목표 : score 속성에 대한 캡슐화 (Get/Set)
-    public int GetScore() 
+    /** public int GetScore() 
     {
         return _score;
     }
@@ -136,8 +136,36 @@ public class ScoreManager : MonoBehaviour
             // 3. UI에 표시한다.
             BestScoreTextUI.text = $"최고 점수 : {BestScore}";
         }
+    }**/
+
+    //  ScoreManager의 Score를 프로퍼티 적용해보기 (기존 메서드 GetScore, SetScore, AddScore 제거)
+    public int Score 
+    {
+        get 
+        {
+            return _score;
+        }
+        set 
+        {
+            if (value < 0) 
+            {
+                return;
+            }
+            _score = value;
+
+            ScoreTextUI.text = $"점수 : {_score}";
+
+            if(value > BestScore) 
+            {
+                BestScore = _score;
+
+                PlayerPrefs.SetInt("BestScore", BestScore);
+
+                BestScoreTextUI.text = $"최고 점수 : {BestScore}";
+            }
+        }
     }
-   
+
 
 
 

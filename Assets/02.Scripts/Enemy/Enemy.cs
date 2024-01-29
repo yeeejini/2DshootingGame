@@ -241,7 +241,9 @@ public class Enemy : MonoBehaviour
         // Debug.Log($"스코어:{scoreManager.GetScore()}");
 
         // 싱글톤 객체 참조로 변경
-        ScoreManager.Instance.AddScore();
+        // ScoreManager.Instance.AddScore();
+        ScoreManager.Instance.Score += 1;
+
         
     }
     public void MakeItem() 
