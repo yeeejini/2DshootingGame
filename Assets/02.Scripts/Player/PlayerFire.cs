@@ -4,33 +4,65 @@ using UnityEngine;
 
 public class PlayerFire : MonoBehaviour
 {
-    // [ ÃÑ¾Ë ¹ß»ç Á¦ÀÛ ]
-    // ¸ñÇ¥ : ÃÑ¾ËÀ» ¸¸µé¾î¼­ ¹ß»çÇÏ°í ½Í´Ù.
-    // ¼Ó¼º :
-    //  - ÃÑ¾Ë
-    //  - ÃÑ±¸ À§Ä¡
-    // ±¸Çö ¼ø¼­
-    // 1. ¹ß»ç ¹öÆ°À» ´©¸£¸é
-    // 2. ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ ÃÑ¾ËÀ» µ¿ÀûÀ¸·Î ¸¸µé°í,
-    // 3. ¸¸µç ÃÑ¾ËÀÇ À§Ä¡¸¦ ÃÑ±¸ÀÇ À§Ä¡·Î ¹Ù²Û´Ù.
+    // [ ì´ì•Œ ë°œì‚¬ ì œì‘ ]
+    // ëª©í‘œ : ì´ì•Œì„ ë§Œë“¤ì–´ì„œ ë°œì‚¬í•˜ê³  ì‹¶ë‹¤.
+    // ì†ì„± :
+    //  - ì´ì•Œ
+    //  - ì´êµ¬ ìœ„ì¹˜
+    // êµ¬í˜„ ìˆœì„œ
+    // 1. ë°œì‚¬ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´
+    // 2. í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì´ì•Œì„ ë™ì ìœ¼ë¡œ ë§Œë“¤ê³ ,
+    // 3. ë§Œë“  ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
 
 
-    [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")]
-    public GameObject BulletPrefab;  // ÃÑ¾Ë ÇÁ¸®ÆÕ
-    [Header("ÃÑ±¸µé")]
-    public GameObject[] Muzzles;  // ÃÑ±¸µé
+    [Header("ì´ì•Œ í”„ë¦¬íŒ¹")]
+    public GameObject BulletPrefab;  // ì´ì•Œ í”„ë¦¬íŒ¹
 
-    
-    [Header("Å¸ÀÌ¸Ó")]
+
+    // ëª©í‘œ : íƒœì–´ë‚  ë•Œ í’€ì—ë‹¤ê°€ ì´ì•Œì„ (í’€ ì‚¬ì´ì¦ˆ)ê°œ ìƒì„±í•œë‹¤.
+    // ì†ì„± : 
+    // - í’€ ì‚¬ì´ì¦ˆ(ëª‡ ê°œ ìƒì„±í• ê±°ëƒ)
+    public int PoolSize = 10;
+    // - ì˜¤ë¸Œì íŠ¸(ì´ì•Œ) í’€
+    public List<GameObject> _bulletPool = null;
+    // ìˆœì„œ : 
+    // 1. íƒœì–´ë‚  ë•Œ : Awake
+    private void Awake()
+    {
+        // 2. ì˜¤ë¸Œì íŠ¸ í’€ ì„ ì–¸(í• ë‹¹)í•´ì£¼ê³ ,
+        _bulletPool = new List<GameObject>();
+
+        // 3. ì´ì•Œ í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì´ì•Œì„ í’€ ì‚¬ì´ì¦ˆë§Œí¼ ìƒì„±í•´ì¤€ë‹¤.
+        for (int i = 0; i < PoolSize; i++) 
+        {
+            GameObject bullet = Instantiate(BulletPrefab);
+            bullet.SetActive(false);  // ëˆë‹¤.
+
+
+            // 4. ìƒì„±í•œ ì´ì•Œì„ í’€ì—ë‹¤ê°€ ë„£ëŠ”ë‹¤.
+            _bulletPool.Add(bullet);
+        }
+    }
+
+
+
+
+
+    [Header("ì´êµ¬ë“¤")]
+    // public GameObject[] Muzzles;  // ì´êµ¬ë“¤
+    public List<GameObject> Muzzles; // Listë¡œ ë³€í™˜
+
+
+    [Header("íƒ€ì´ë¨¸")]
     public float Timer = 10f;
     public const float COOL_TIME = 0.3f;
 
-    [Header("ÀÚµ¿ ¸ğµå")]
+    [Header("ìë™ ëª¨ë“œ")]
     public bool AutoMode = false;
 
     public AudioSource FireSource;
 
-    [Header("ÇÊ»ì±â")]
+    [Header("í•„ì‚´ê¸°")]
     public GameObject BoomPrefab;
     public float boomTimer = 0f;
     public const float BOOM_COOLTIME = 5f;
@@ -52,48 +84,92 @@ public class PlayerFire : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("ÀÚµ¿ °ø°İ ¸ğµå");
+            Debug.Log("ìë™ ê³µê²© ëª¨ë“œ");
             AutoMode = true;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) 
         {
-            Debug.Log("¼öµ¿ °ø°İ ¸ğµå");
+            Debug.Log("ìˆ˜ë™ ê³µê²© ëª¨ë“œ");
             AutoMode = false;
         }
-        // Å¸ÀÌ¸Ó °è»ê
+        // íƒ€ì´ë¨¸ ê³„ì‚°
         Timer -= Time.deltaTime;
 
 
-        // 1. Å¸ÀÌ¸Ó°¡ 0º¸´Ù ÀÛÀº »óÅÂ¿¡¼­ ¿ÀÅä¸ğµåÀÌ°Å³ª ½ºÆäÀÌ½º¸¦ ´©¸£¸é (¹ß»ç ¹öÆ°À» ´©¸£¸é)
+        // 1. íƒ€ì´ë¨¸ê°€ 0ë³´ë‹¤ ì‘ì€ ìƒíƒœì—ì„œ ì˜¤í† ëª¨ë“œì´ê±°ë‚˜ ìŠ¤í˜ì´ìŠ¤ë¥¼ ëˆ„ë¥´ë©´ (ë°œì‚¬ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´)
         bool ready = (AutoMode || Input.GetKey(KeyCode.Space));
         if (Timer <= 0 && ready)
         {
-            // ÃÑ¾Ë »ç¿îµå
+            // ì´ì•Œ ì‚¬ìš´ë“œ
             FireSource.Play();
 
-            // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+            // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
             Timer = COOL_TIME;
+
             
-            // 2. ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ ÃÑ¾ËÀ» µ¿ÀûÀ¸·Î ¸¸µé°í,
+
+
+
+            // 2. í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì´ì•Œì„ ë™ì ìœ¼ë¡œ ë§Œë“¤ê³ ,
             // GameObject bullet1 = Instantiate(BulletPrefab);
             // GameObject bullet2 = Instantiate(BulletPrefab);
 
-            // 3. ¸¸µç ÃÑ¾ËÀÇ À§Ä¡¸¦ ÃÑ±¸ÀÇ À§Ä¡·Î ¹Ù²Û´Ù.
+            // 3. ë§Œë“  ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
             // bullet1.transform.position = Muzzle.transform.position;
             // bullet2.transform.position = Muzzle2.transform.position;
 
-            // ¸ñÇ¥ : ÃÑ±¸ °³¼ö ¸¸Å­ ÃÑ¾ËÀ» ¸¸µé°í, ¸¸µç ÃÑ¾ËÀÇ À§Ä¡¸¦ °¢ ÃÑ±¸ÀÇ À§Ä¡·Î ¹Ù²Û´Ù.
-            for (int i = 0; i < Muzzles.Length; i++) 
+
+
+            // ëª©í‘œ : ì´êµ¬ ê°œìˆ˜ ë§Œí¼ ì´ì•Œì„ ë§Œë“¤ê³ , ë§Œë“  ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ê° ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
+            /**for (int i = 0; i < Muzzles.Length; i++) 
             {
-                // 1. ÃÑ¾ËÀ» ¸¸µé°í
+                // 1. ì´ì•Œì„ ë§Œë“¤ê³ 
                 GameObject bullet = Instantiate(BulletPrefab);
 
-                // 2. À§Ä¡¸¦ ¼±Á¤ÇÑ´Ù.
+                // 2. ìœ„ì¹˜ë¥¼ ì„ ì •í•œë‹¤.
                 bullet.transform.position = Muzzles[i].transform.position;
+            }**/
+
+
+
+            //  PlayerFire.csì— ìˆëŠ” ë°°ì—´ ->  ë°°ì—´ì—ì„œ Listë¡œ ë°”ê¾¸ê¸°
+            /**for (int i = 0; i < Muzzles.Count; i++) 
+            {
+                GameObject bullet = Instantiate(BulletPrefab);
+
+                bullet.transform.position = Muzzles[i].transform.position;
+            }**/
+
+
+
+            // ëª©í‘œ : ì´êµ¬ ê°œìˆ˜ ë§Œí¼ ì´ì•Œì„ í’€ì—ì„œ êº¼ë‚´ì“´ë‹¤.
+            // ìˆœì„œ :
+            // 1. êº¼ì ¸ìˆëŠ” ì´ì•Œì„ êº¼ë‚¸ë‹¤.
+            // 2. êº¼ë‚¸ ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ê° ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
+            // 3. ì´ì•Œì„ í‚¨ë‹¤. (ë°œì‚¬í•œë‹¤.)
+            for (int i = 0; i < Muzzles.Count; i++)
+            {
+                // 1. êº¼ì ¸ìˆëŠ” ì´ì•Œì„ ì°¾ì•„ êº¼ë‚¸ë‹¤.
+                GameObject bullet = null;
+                foreach (GameObject b in _bulletPool) // í’€ ì°¾ê¸°
+                {
+                    // ë§Œì•½ì— êº¼ì ¸(ë¹„í™œì„±í™”) ìˆë‹¤ë©´.
+                    if (b.activeInHierarchy == false) 
+                    {
+                        bullet = b;
+                        break;  // ì°¾ì•˜ê¸° ë•Œë¬¸ì— ê·¸ ë’¤ê¹Œì§€ ì°¾ì„ í•„ìš”ê°€ ì—†ë‹¤.
+                    }
+                }
+                // 2. êº¼ë‚¸ ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ê° ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
+                bullet.transform.position = Muzzles[i].transform.position;
+
+
+                // 3. ì´ì•Œì„ í‚¨ë‹¤. (ë°œì‚¬í•œë‹¤.)
+                bullet.SetActive(true);
+
+
             }
-
         }
-
 
         boomTimer -= Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Alpha3) && boomTimer <= 0) 
@@ -102,10 +178,6 @@ public class PlayerFire : MonoBehaviour
 
             GameObject boom = Instantiate(BoomPrefab);
             boom.transform.position = a;
-
-            
         }
     }
-
-    
 }
