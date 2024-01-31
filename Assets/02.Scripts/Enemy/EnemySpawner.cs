@@ -4,35 +4,66 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    // ¿ªÇÒ : ÀÏÁ¤½Ã°£¸¶´Ù ÀûÀ» ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ »ı¼ºÇØ¼­ ³» À§Ä¡¿¡ °®´Ù ³õ°í ½Í´Ù.
-    // ÇÊ¿ä ¼Ó¼º
-    //    - Àû ÇÁ¸®ÆÕ
-    //    - ÀÏÁ¤½Ã°£
-    //    - ÇöÀç½Ã°£
-    // ±¸Çö¼ø¼­ : 
-    // 1. ½Ã°£ÀÌ Èå¸£´Ù°¡
-    // 2. ¸¸¾à¿¡ ½Ã°£ÀÌ ÀÏÁ¤½Ã°£ÀÌ µÇ¸é
-    // 3. ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ ÀûÀ» »ı¼ºÇÑ´Ù.
-    // 4. »ı¼ºÇÑ ÀûÀÇ À§Ä¡¸¦ ³» À§Ä¡·Î ¹Ù²Û´Ù.
-    // 1ÃÊ¸¶´Ù ÀûÀÌ »ı¼º
+    // ì—­í•  : ì¼ì •ì‹œê°„ë§ˆë‹¤ ì ì„ í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ìƒì„±í•´ì„œ ë‚´ ìœ„ì¹˜ì— ê°–ë‹¤ ë†“ê³  ì‹¶ë‹¤.
+    // í•„ìš” ì†ì„±
+    //    - ì  í”„ë¦¬íŒ¹
+    //    - ì¼ì •ì‹œê°„
+    //    - í˜„ì¬ì‹œê°„
+    // êµ¬í˜„ìˆœì„œ : 
+    // 1. ì‹œê°„ì´ íë¥´ë‹¤ê°€
+    // 2. ë§Œì•½ì— ì‹œê°„ì´ ì¼ì •ì‹œê°„ì´ ë˜ë©´
+    // 3. í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì ì„ ìƒì„±í•œë‹¤.
+    // 4. ìƒì„±í•œ ì ì˜ ìœ„ì¹˜ë¥¼ ë‚´ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
+    // 1ì´ˆë§ˆë‹¤ ì ì´ ìƒì„±
 
 
     public GameObject EnemyPrefabsBasic;
     public GameObject EnemyPrefabsTarget;
     public GameObject EnemyPrefabsFollow;
 
+    /**
+    // í’€ì‚¬ì´ì¦ˆ : 15 ( 15 * 3 = 45 )
+    public int PoolSize = 15;
+    // í’€
+    public List<Enemy> EnemyPool = null;
+
+    private void Awake()
+    {
+        EnemyPool = new List<Enemy>();
+
+        // (ìƒì„± -> ë„ê³  -> ë„£ëŠ”ë‹¤.) * PoolSize(15)
+        for (int i = 0; i < PoolSize; i++) 
+        {
+            GameObject enemyObject = Instantiate(EnemyPrefabsBasic);
+            enemyObject.SetActive(false);
+            EnemyPool.Add(enemyObject.GetComponent<Enemy>());
+        }
+        for (int i = 0; i < PoolSize; i++)
+        {
+            GameObject enemyObject = Instantiate(EnemyPrefabsTarget);
+            enemyObject.SetActive(false);
+            EnemyPool.Add(enemyObject.GetComponent<Enemy>());
+        }
+        for (int i = 0; i < PoolSize; i++)
+        {
+            GameObject enemyObject = Instantiate(EnemyPrefabsFollow);
+            enemyObject.SetActive(false);
+            EnemyPool.Add(enemyObject.GetComponent<Enemy>());
+        }
+    }**/
+
     public GameObject EnemySpawn;
 
-    [Header("Å¸ÀÌ¸Ó")]
+    [Header("íƒ€ì´ë¨¸")]
     public float Timer = 1f;
     float Enemyrate;
     
 
 
-    // ¸ñÇ¥ : Àû »ı¼º ½Ã°£À» ·£´ıÇÏ°Ô ÇÏ°í ½Í´Ù.
-    // ÇÊ¿ä ¼Ó¼º : 
-    //     - ÃÖ¼Ò ½Ã°£
-    //     - ÃÖ´ë ½Ã°£
+    // ëª©í‘œ : ì  ìƒì„± ì‹œê°„ì„ ëœë¤í•˜ê²Œ í•˜ê³  ì‹¶ë‹¤.
+    // í•„ìš” ì†ì„± : 
+    //     - ìµœì†Œ ì‹œê°„
+    //     - ìµœëŒ€ ì‹œê°„
     public float MinTime = 0.5f;
     public float MaxTime = 1.5f;
 
@@ -40,7 +71,7 @@ public class EnemySpawner : MonoBehaviour
    
     private void Start()
     {
-        // ½ÃÀÛÇÒ ¶§ Àû »ı¼º ½Ã°£À» ·£´ıÇÏ°Ô ¼³Á¤ÇÑ´Ù.
+        // ì‹œì‘í•  ë•Œ ì  ìƒì„± ì‹œê°„ì„ ëœë¤í•˜ê²Œ ì„¤ì •í•œë‹¤.
         SetRandomSpawnTime();
 
     }
@@ -70,24 +101,52 @@ public class EnemySpawner : MonoBehaviour
         Enemyrate = Random.Range(0, 100);
 
 
-        
+        // Enemy enemy = null;
         if (Enemyrate <= 30)
         {
             EnemyTarget = Instantiate(EnemyPrefabsTarget);
 
             EnemyTarget.transform.position = EnemySpawn.transform.position;
+
+            /**foreach (Enemy e in EnemyPool) 
+            {
+                if (!e.gameObject.activeInHierarchy && e.EType == EnemyType.Target) 
+                {
+                    enemy = e;
+                    break;
+                }
+                
+            }**/
         }
         if (Enemyrate <= 10)
         {
             EnemyFollow = Instantiate(EnemyPrefabsFollow);
 
             EnemyFollow.transform.position = EnemySpawn.transform.position;
+
+            /**foreach (Enemy e in EnemyPool)
+            {
+                if (!e.gameObject.activeInHierarchy && e.EType == EnemyType.Follow)
+                {
+                    enemy = e;
+                    break;
+                }
+            }**/
         }
         else 
         {
             EnemyBasic = Instantiate(EnemyPrefabsBasic);
 
             EnemyBasic.transform.position = EnemySpawn.transform.position;
+
+            /**foreach (Enemy e in EnemyPool)
+            {
+                if (!e.gameObject.activeInHierarchy && e.EType == EnemyType.Basic)
+                {
+                    enemy = e;
+                    break;
+                }
+            }**/
         }
         
 

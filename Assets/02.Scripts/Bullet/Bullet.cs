@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum BulletType  // ÃÑ¾Ë Å¸ÀÔ¿¡ ´ëÇÑ ¿­°ÅÇü(»ó¼ö¸¦ ±â¾ïÇÏ±â ÁÁ°Ô ÇÏ³ªÀÇ ÀÌ¸§À¸·Î ±×·ìÈ­ ÇÏ´Â °Í)
+public enum BulletType  // ì´ì•Œ íƒ€ì…ì— ëŒ€í•œ ì—´ê±°í˜•(ìƒìˆ˜ë¥¼ ê¸°ì–µí•˜ê¸° ì¢‹ê²Œ í•˜ë‚˜ì˜ ì´ë¦„ìœ¼ë¡œ ê·¸ë£¹í™” í•˜ëŠ” ê²ƒ)
 {
     Main,
     Sub,
@@ -11,20 +11,19 @@ public enum BulletType  // ÃÑ¾Ë Å¸ÀÔ¿¡ ´ëÇÑ ¿­°ÅÇü(»ó¼ö¸¦ ±â¾ïÇÏ±â ÁÁ°Ô ÇÏ³ªÀÇ À
 }
 public class Bullet : MonoBehaviour
 {
-    //public int BType = 0;   // 0ÀÌ¸é ÁÖÃÑ¾Ë, 1ÀÌ¸é º¸Á¶ÃÑ¾Ë, 2¸é ÆêÀÌ ½î´Â ÃÑ¾Ë
+    //public int BType = 0;   // 0ì´ë©´ ì£¼ì´ì•Œ, 1ì´ë©´ ë³´ì¡°ì´ì•Œ, 2ë©´ í«ì´ ì˜ëŠ” ì´ì•Œ
     public BulletType BType = BulletType.Main;
     
 
-    // ¸ñÇ¥ : ÃÑ¾ËÀÌ À§·Î °è¼Ó ÀÌµ¿ÇÏ°í ½Í´Ù.
-    // ¼Ó¼º :
-    //   - ¼Ó·Â
-    // ±¸Çö ¼ø¼­
-    // 1. ÀÌµ¿ÇÒ ¹æÇâÀ» ±¸ÇÑ´Ù.
-    // 2. ÀÌµ¿ÇÑ´Ù.
+    // ëª©í‘œ : ì´ì•Œì´ ìœ„ë¡œ ê³„ì† ì´ë™í•˜ê³  ì‹¶ë‹¤.
+    // ì†ì„± :
+    //   - ì†ë ¥
+    // êµ¬í˜„ ìˆœì„œ
+    // 1. ì´ë™í•  ë°©í–¥ì„ êµ¬í•œë‹¤.
+    // 2. ì´ë™í•œë‹¤.
 
     public float Speed;
 
-    
 
 
     void Start()
@@ -34,29 +33,27 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision) 
     {
-        if (collision.collider.tag == "Enemy") 
+        if (collision.collider.CompareTag("Enemy")) 
         {
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            collision.gameObject.SetActive(false);
         }
-        
-
     }
     void Update()
     {
-        // 1. ÀÌµ¿ÇÒ ¹æÇâÀ» ±¸ÇÑ´Ù.
+        // 1. ì´ë™í•  ë°©í–¥ì„ êµ¬í•œë‹¤.
         Vector2 bullet = Vector2.up;
 
-        // 2. ÀÌµ¿ÇÑ´Ù.
+        // 2. ì´ë™í•œë‹¤.
         //transform.Translate(dir * Speed * Time.deltaTime);
-        // »õ·Î¿î À§Ä¡ = ÇöÀçÀ§Ä¡ * ¼Óµµ * ½Ã°£
+        // ìƒˆë¡œìš´ ìœ„ì¹˜ = í˜„ì¬ìœ„ì¹˜ * ì†ë„ * ì‹œê°„
         transform.position += (Vector3)(bullet * Speed) * Time.deltaTime;
 
        
         
-        // º¸Á¶ ÃÑ¾Ë
+        // ë³´ì¡° ì´ì•Œ
         Vector2 subbullet = Vector2.up;
 
         transform.position += (Vector3)(subbullet * Speed) * Time.deltaTime;
-
     }
 }

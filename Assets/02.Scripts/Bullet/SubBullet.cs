@@ -5,20 +5,43 @@ using UnityEngine;
 public class SubBullet : MonoBehaviour
 {
     
-    // ¸ñÇ¥ : º¸Á¶ ÃÑ¾Ë ¾çÂÊ¿¡ 2°³ ¹ß»çÇÏ±â
+    // ëª©í‘œ : ë³´ì¡° ì´ì•Œ ì–‘ìª½ì— 2ê°œ ë°œì‚¬í•˜ê¸°
     
 
-    [Header("º¸Á¶ ÃÑ¾Ë ÇÁ¸®ÆÕ")]
+    [Header("ë³´ì¡° ì´ì•Œ í”„ë¦¬íŒ¹")]
     public GameObject SubBulletPrefab; 
-    [Header("º¸Á¶ ÃÑ¾Ë")]
-    public GameObject[] SubMuzzle; 
+    [Header("ë³´ì¡° ì´ì•Œ")]
+    // public GameObject[] SubMuzzle;
+    public List<GameObject> SubMuzzle;
 
 
-    [Header("Å¸ÀÌ¸Ó")]
+
+    // íƒœì–´ë‚  ë•Œ í’€ì—ë‹¤ê°€ ì´ì•Œì„ (í’€ ì‚¬ì´ì¦ˆ)ì— ìƒì„±í•œë‹¤.
+    public int PoolSize = 6;
+    
+    public List<GameObject> _subbulletPool = null;
+    
+    private void Awake()
+    {
+        _subbulletPool = new List<GameObject>();
+        
+        for (int i = 0; i < PoolSize; i++)
+        {
+            GameObject bullet = Instantiate(SubBulletPrefab);
+            bullet.SetActive(false); 
+
+            _subbulletPool.Add(bullet);
+        }
+    }
+
+
+
+
+    [Header("íƒ€ì´ë¨¸")]
     public float Timer = 10f;
     public const float COOL_TIME = 2f;
 
-    [Header("ÀÚµ¿ ¸ğµå")]
+    [Header("ìë™ ëª¨ë“œ")]
     public bool AutoMode = false;
 
 
@@ -35,12 +58,12 @@ public class SubBullet : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("ÀÚµ¿ °ø°İ ¸ğµå");
+            Debug.Log("ìë™ ê³µê²© ëª¨ë“œ");
             AutoMode = true;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("¼öµ¿ °ø°İ ¸ğµå");
+            Debug.Log("ìˆ˜ë™ ê³µê²© ëª¨ë“œ");
             AutoMode = false;
         }
 
@@ -54,16 +77,22 @@ public class SubBullet : MonoBehaviour
 
             Timer = COOL_TIME;
 
-            for (int i = 0; i < SubMuzzle.Length; i++)
+            // ì´êµ¬ ê°œìˆ˜ ë§Œí¼ ì´ì•Œì„ í’€ì—ì„œ êº¼ë‚´ì“´ë‹¤.
+            for (int i = 0; i < SubMuzzle.Count; i++)
             {
-                GameObject bullet = Instantiate(SubBulletPrefab);
+                GameObject subbullet = null;
+                foreach (GameObject s in _subbulletPool) 
+                {
+                    if (s.activeInHierarchy == false) 
+                    {
+                        subbullet = s;
+                        break;
+                    }
+                }
+                subbullet.transform.position = SubMuzzle[i].transform.position;
 
-                bullet.transform.position = SubMuzzle[i].transform.position;
+                subbullet.SetActive(true);
             }
-
-
         }
-
     }
-
 }

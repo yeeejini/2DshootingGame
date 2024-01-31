@@ -6,16 +6,16 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     /** 
-      ¸ñÇ¥ : ÇÃ·¹ÀÌ¾î¸¦ ÀÌµ¿ÇÏ°í ½Í´Ù
-      ÇÊ¿ä ¼Ó¼º : 
-         - ÀÌµ¿ ¼Óµµ
-      ¼ø¼­ :
-         1. Å°º¸µå ÀÔ·ÂÀ» ¹Ş´Â´Ù.
-         2. Å°º¸µå ÀÔ·Â¿¡ µû¶ó ÀÌµ¿ÇÒ ¹æÇâÀ» °è»êÇÑ´Ù.
-         3. ÀÌµ¿ÇÒ ¹æÇâ°ú ÀÌµ¿ ¼Óµµ¿¡ µû¶ó ÇÃ·¹ÀÌ¾î¸¦ ÀÌµ¿½ÃÅ²´Ù.
+      ëª©í‘œ : í”Œë ˆì´ì–´ë¥¼ ì´ë™í•˜ê³  ì‹¶ë‹¤
+      í•„ìš” ì†ì„± : 
+         - ì´ë™ ì†ë„
+      ìˆœì„œ :
+         1. í‚¤ë³´ë“œ ì…ë ¥ì„ ë°›ëŠ”ë‹¤.
+         2. í‚¤ë³´ë“œ ì…ë ¥ì— ë”°ë¼ ì´ë™í•  ë°©í–¥ì„ ê³„ì‚°í•œë‹¤.
+         3. ì´ë™í•  ë°©í–¥ê³¼ ì´ë™ ì†ë„ì— ë”°ë¼ í”Œë ˆì´ì–´ë¥¼ ì´ë™ì‹œí‚¨ë‹¤.
     **/
 
-    public float Speed = 3f;  // ÀÌµ¿ ¼Óµµ : ÃÊ´ç 3¸¸Å­ ÀÌµ¿ÇÏ°Ú´Ù.
+    private float Speed = 3f;  // ì´ë™ ì†ë„ : ì´ˆë‹¹ 3ë§Œí¼ ì´ë™í•˜ê² ë‹¤.
     
     
     public const float MinX = -3f;
@@ -40,51 +40,51 @@ public class PlayerMove : MonoBehaviour
     {
         // transform.Translate(Vector2.up * Speed * Time.deltaTime);
         // (0, 1) * 3 -> (0, 3) * Time.deltaTime
-        // deltaTimeÀº ÇÁ·¹ÀÓ °£ ½Ã°£ °£°İÀ» ¹İÈ¯ÇÑ´Ù.
-        // 30fps : d -> 0.03ÃÊ
-        // 60fps : d -> 0.016ÃÊ
+        // deltaTimeì€ í”„ë ˆì„ ê°„ ì‹œê°„ ê°„ê²©ì„ ë°˜í™˜í•œë‹¤.
+        // 30fps : d -> 0.03ì´ˆ
+        // 60fps : d -> 0.016ì´ˆ
 
 
-        // 1. Å°º¸µå ÀÔ·ÂÀ» ¹Ş´Â´Ù.
-        // float h = Input.GetAxis("Horizontal");  // -1.0f ~ 0f ~ +1.0f  (¼öÆò)
-        // float v = Input.GetAxis("Vertical");    // ¼öÁ÷ ÀÔ·Â°ªÀ» ¹Ş¾Æ¿Â´Ù.(¼öÁ÷)
-        float h = Input.GetAxisRaw("Horizontal");  // -1.0f,  0f,  +1.0f  (¼öÆò)
-        float v = Input.GetAxisRaw("Vertical");    // ¼öÁ÷ ÀÔ·Â°ªÀ» ¹Ş¾Æ¿Â´Ù.(¼öÁ÷)
+        // 1. í‚¤ë³´ë“œ ì…ë ¥ì„ ë°›ëŠ”ë‹¤.
+        // float h = Input.GetAxis("Horizontal");  // -1.0f ~ 0f ~ +1.0f  (ìˆ˜í‰)
+        // float v = Input.GetAxis("Vertical");    // ìˆ˜ì§ ì…ë ¥ê°’ì„ ë°›ì•„ì˜¨ë‹¤.(ìˆ˜ì§)
+        float h = Input.GetAxisRaw("Horizontal");  // -1.0f,  0f,  +1.0f  (ìˆ˜í‰)
+        float v = Input.GetAxisRaw("Vertical");    // ìˆ˜ì§ ì…ë ¥ê°’ì„ ë°›ì•„ì˜¨ë‹¤.(ìˆ˜ì§)
         // Debug.Log($"h: {h}, v: {v}");
 
 
 
-        // ¾Ö´Ï¸Ş´ÏÆ¼¿¡°Ô ÆÄ¶ó¹ÌÅÍ °ªÀ» ³Ñ°ÜÁØ´Ù.
+        // ì• ë‹ˆë©”ë‹ˆí‹°ì—ê²Œ íŒŒë¼ë¯¸í„° ê°’ì„ ë„˜ê²¨ì¤€ë‹¤.
         MyAnimator.SetInteger("h", (int)h);
 
 
 
-        // 2. Å°º¸µå ÀÔ·Â¿¡ µû¶ó ÀÌµ¿ÇÒ ¹æÇâÀ» °è»êÇÑ´Ù.
+        // 2. í‚¤ë³´ë“œ ì…ë ¥ì— ë”°ë¼ ì´ë™í•  ë°©í–¥ì„ ê³„ì‚°í•œë‹¤.
         // Vector2 dir = Vector2.right * h + Vector2.up * v;   // (1, 0) * h + (0, 1) * v = (h, v)
 
-        // ¹æÇâÀ» °¢ ¼ººĞÀ¸·Î Á¦ÀÛ
+        // ë°©í–¥ì„ ê° ì„±ë¶„ìœ¼ë¡œ ì œì‘
         Vector2 dir = new Vector2(h, v);
-        // Debug.Log($"Á¤±ÔÈ­ Àü: {dir.magnitude}");
+        // Debug.Log($"ì •ê·œí™” ì „: {dir.magnitude}");
 
-        // ÀÌµ¿ ¹æÇâÀ» Á¤±ÔÈ­ (¹æÇâÀº °°Áö¸¸ ±æÀÌ´Â 1·Î ¸¸µé¾îÁÜ)
+        // ì´ë™ ë°©í–¥ì„ ì •ê·œí™” (ë°©í–¥ì€ ê°™ì§€ë§Œ ê¸¸ì´ëŠ” 1ë¡œ ë§Œë“¤ì–´ì¤Œ)
         dir = dir.normalized;
-        // Debug.Log($"Á¤±ÔÈ­ ÈÄ: {dir.magnitude}");
+        // Debug.Log($"ì •ê·œí™” í›„: {dir.magnitude}");
 
-        // 3. ÀÌµ¿ÇÒ ¹æÇâ°ú ÀÌµ¿ ¼Óµµ¿¡ µû¶ó ÇÃ·¹ÀÌ¾î¸¦ ÀÌµ¿½ÃÅ²´Ù.
+        // 3. ì´ë™í•  ë°©í–¥ê³¼ ì´ë™ ì†ë„ì— ë”°ë¼ í”Œë ˆì´ì–´ë¥¼ ì´ë™ì‹œí‚¨ë‹¤.
         // Debug.Log(Time.deltaTime);
-        // transform.Translate(dir * Speed * Time.deltaTime); // Translate -> º¸°íÀÖ´Â ¹æÇâÀ¸·Î ¿òÁ÷ÀÓ
+        // transform.Translate(dir * Speed * Time.deltaTime); // Translate -> ë³´ê³ ìˆëŠ” ë°©í–¥ìœ¼ë¡œ ì›€ì§ì„
 
-        // °ø½ÄÀ» ÀÌ¿ëÇÑ ÀÌµ¿
-        // »õ·Î¿î À§Ä¡ = ÇöÀç À§Ä¡ + ¼Óµµ * ½Ã°£
+        // ê³µì‹ì„ ì´ìš©í•œ ì´ë™
+        // ìƒˆë¡œìš´ ìœ„ì¹˜ = í˜„ì¬ ìœ„ì¹˜ + ì†ë„ * ì‹œê°„
         Vector2 newPosition = transform.position + (Vector3)(dir * Speed) * Time.deltaTime;
 
         /** 
-        »õ·Î¿î À§Ä¡¸¦ Àß ¼öÁ¤ÇØº»´Ù. 
+        ìƒˆë¡œìš´ ìœ„ì¹˜ë¥¼ ì˜ ìˆ˜ì •í•´ë³¸ë‹¤. 
         **/
         // Debug.Log($"x: {newPosition.x}, y:{newPosition.y}");
 
 
-        // ÁÂÇ¥ ¹ÛÀ¸·Î ³ª°¡Áö ¾Ê°Ô
+        // ì¢Œí‘œ ë°–ìœ¼ë¡œ ë‚˜ê°€ì§€ ì•Šê²Œ
         /**if (newPosition.x < MinX) 
         {
             newPosition.x = MinX;
@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviour
             newPosition.x = MaxX;
         }**/
 
-        // ÇÑÂÊÀ¸·Î ÀÌµ¿ÇÏ¸é ¹İ´ëÆíÀ¸·Î ³ª¿À´Â°Å
+        // í•œìª½ìœ¼ë¡œ ì´ë™í•˜ë©´ ë°˜ëŒ€í¸ìœ¼ë¡œ ë‚˜ì˜¤ëŠ”ê±°
         if (newPosition.x < MinX)
         {
             newPosition.x = MaxX;
@@ -123,24 +123,24 @@ public class PlayerMove : MonoBehaviour
             newPosition.y = MaxY;
         }
 
-        transform.position = newPosition; // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡ = »õ·Î¿î À§Ä¡
+        transform.position = newPosition; // í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ = ìƒˆë¡œìš´ ìœ„ì¹˜
 
 
 
-        // ÇöÀç À§Ä¡ Ãâ·Â
-        // Debug.Log(transform.position); // ¿òÁ÷ÀÏ ¶§¸¶´Ù ÁÂÇ¥ ¶ä
-                                       // transform.position = new Vector2(0, 1); -> ÀÌ·¸°Ô ÇØµµ µÇÁö¸¸ ¸Å ÇÁ·¹ÀÓ¸¶´Ù ½ÇÇàµÊ
+        // í˜„ì¬ ìœ„ì¹˜ ì¶œë ¥
+        // Debug.Log(transform.position); // ì›€ì§ì¼ ë•Œë§ˆë‹¤ ì¢Œí‘œ ëœ¸
+                                       // transform.position = new Vector2(0, 1); -> ì´ë ‡ê²Œ í•´ë„ ë˜ì§€ë§Œ ë§¤ í”„ë ˆì„ë§ˆë‹¤ ì‹¤í–‰ë¨
 
     }
     private void SpeedUpDown() 
     {
-        // Å°º¸µå E¹öÆ°À» ´©¸£¸é ½ºÇÇµå 1¾÷ Q¹öÆ° ´©¸£¸é ½ºÇÇµå 1´Ù¿î
-        // ¼Ó¼º
-        // - ¼Ó·Â (Speed)
-        // ¼ø¼­ : 
-        // 1. Q / E ¹öÆ° ÀÔ·ÂÀ» ÆÇ´ÜÇÑ´Ù.
-        // 2. Q ¹öÆ°ÀÌ ´­·È´Ù¸é ½ºÇÇµå 1´Ù¿î
-        // 3. E ¹öÆ°ÀÌ ´­·È´Ù¸é ½ºÇÇµå 1¾÷
+        // í‚¤ë³´ë“œ Eë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ìŠ¤í”¼ë“œ 1ì—… Që²„íŠ¼ ëˆ„ë¥´ë©´ ìŠ¤í”¼ë“œ 1ë‹¤ìš´
+        // ì†ì„±
+        // - ì†ë ¥ (Speed)
+        // ìˆœì„œ : 
+        // 1. Q / E ë²„íŠ¼ ì…ë ¥ì„ íŒë‹¨í•œë‹¤.
+        // 2. Q ë²„íŠ¼ì´ ëˆŒë ¸ë‹¤ë©´ ìŠ¤í”¼ë“œ 1ë‹¤ìš´
+        // 3. E ë²„íŠ¼ì´ ëˆŒë ¸ë‹¤ë©´ ìŠ¤í”¼ë“œ 1ì—…
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Speed--;
@@ -150,6 +150,17 @@ public class PlayerMove : MonoBehaviour
         {
             Speed++;
         }
-
+    }
+    public float GetSpeed() 
+    {
+        return Speed;
+    }
+    public void SetSpeed(float speed) 
+    {
+        Speed = speed;
+    }
+    public void AddSpeed(float speed) 
+    {
+        Speed += speed;
     }
 }

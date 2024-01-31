@@ -110,7 +110,7 @@ public class Item : MonoBehaviour
         GameObject target = GameObject.Find("Player");
 
         _dir = target.transform.position - this.transform.position;
-        _dir.Normalize();
+        _dir.Normalize();  
 
         transform.position += (Vector3)(_dir * Speed) * Time.deltaTime;
     }

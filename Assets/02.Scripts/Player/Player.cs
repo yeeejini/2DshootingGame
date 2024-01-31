@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        //�÷��̾���� �浹 üũ
+        // 충돌한 콜라이더의 태그가 적이라면...
         if (collision.collider.tag == "Enemy")
         {
             PlayerSource.Play();
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         GameObject P = GameObject.Find("SoundController_Player");
         PlayerSource = P.GetComponent<AudioSource>();
 
-        // GetComponent<������Ʈ Ÿ��>(); -> ���� ������Ʈ�� ������Ʈ�� �������� �޼���
+        // GetComponent<타입(클래스)>(); -> 게임 오브젝트에 달린 컴포넌트 중 해당 타입을 찾아온다.
 
         // SpriteRenderer sr = GetComponent<SpriteRenderer>();
         // sr.color = Color.white;
@@ -46,5 +46,4 @@ public class Player : MonoBehaviour
     {
         _health = health;
     }
-    
 }

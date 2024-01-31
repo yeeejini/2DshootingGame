@@ -1047,7 +1047,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreTextUI: {fileID: 220658530}
-  Score: 0
   BestScoreTextUI: {fileID: 2100620394}
   BestScore: 0
 --- !u!4 &674633176
@@ -1205,7 +1204,6 @@ GameObject:
   - component: {fileID: 754079462}
   - component: {fileID: 754079461}
   - component: {fileID: 754079460}
-  - component: {fileID: 754079459}
   - component: {fileID: 754079458}
   - component: {fileID: 754079457}
   - component: {fileID: 754079456}
@@ -1231,8 +1229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff1879583bf9a149a425039039eb468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 3
-  PlayerSource: {fileID: 0}
+  PlayerSource: {fileID: 754079466}
 --- !u!50 &754079457
 Rigidbody2D:
   serializedVersion: 4
@@ -1305,24 +1302,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.92854893, y: 0.8175864}
   m_EdgeRadius: 0
---- !u!114 &754079459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 754079455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cbf5873510643045b8f60c6d777534b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SubBulletPrefab: {fileID: 3366172718604584070, guid: ad7483aa24e441044bbeb87704499074, type: 3}
-  SubMuzzle:
-  - {fileID: 7576701897527136840}
-  - {fileID: 4063179322225164897}
-  Timer: 5
-  AutoMode: 0
 --- !u!114 &754079460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,14 +1315,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 2273102023141760863, guid: 20c9ca2d74b1ef249a5fc800a0c69f5b, type: 3}
+  SubBulletPrefab: {fileID: 3366172718604584070, guid: ad7483aa24e441044bbeb87704499074, type: 3}
+  PoolSize: 20
+  _bulletPool: []
   Muzzles:
   - {fileID: 8055243652332512162}
   - {fileID: 8896365324720837752}
+  SubMuzzles:
+  - {fileID: 7576701897527136840}
+  - {fileID: 4063179322225164897}
   Timer: 10
+  BoomTimer: 3
   AutoMode: 0
   FireSource: {fileID: 754079465}
   BoomPrefab: {fileID: 614399963767911358, guid: fa85aaf66ad2ef040be9d7eddd814add, type: 3}
-  boomTimer: 0
 --- !u!114 &754079461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1356,7 +1341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb5ee483a4b49324ba6748f43cf0082a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
   MyAnimator: {fileID: 754079464}
 --- !u!212 &754079462
 SpriteRenderer:
@@ -2891,7 +2875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -79}
+  m_AnchoredPosition: {x: 20, y: -88}
   m_SizeDelta: {x: 538, y: 136}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2100620394
@@ -3238,7 +3222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff1879583bf9a149a425039039eb468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 3
   PlayerSource: {fileID: 0}
 --- !u!1 &474630860028566692
 GameObject:
@@ -7387,15 +7370,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c118da1a841024b961e76373261511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 4086947879789652274, guid: 3e11c80017355a240b428ce8d592163d, type: 3}
-  Muzzles:
-  - {fileID: 8055243652332512162}
-  - {fileID: 8896365324720837752}
+  BulletPrefab: {fileID: 0}
+  SubBulletPrefab: {fileID: 0}
+  PoolSize: 20
+  _bulletPool: []
+  Muzzles: []
+  SubMuzzles: []
   Timer: 10
+  BoomTimer: 0
   AutoMode: 0
   FireSource: {fileID: 0}
   BoomPrefab: {fileID: 0}
-  boomTimer: 5
 --- !u!1 &4613867687221552020
 GameObject:
   m_ObjectHideFlags: 0
@@ -8657,6 +8642,8 @@ MonoBehaviour:
   SubMuzzle:
   - {fileID: 7576701897527136840}
   - {fileID: 4063179322225164897}
+  PoolSize: 20
+  _subbulletPool: []
   Timer: 5
   AutoMode: 0
 --- !u!4 &6193170396318675598
@@ -10404,7 +10391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb5ee483a4b49324ba6748f43cf0082a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
   MyAnimator: {fileID: 0}
 --- !u!4 &8349839276173857357
 Transform:

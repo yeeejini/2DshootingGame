@@ -9,7 +9,7 @@ public class Boom : MonoBehaviour
 
     void Start()
     {
-        // FindGameObjectsWithTag -> Æ¯Á¤ ÅÂ±×¸¦ °¡Áø ¸ğµç °ÔÀÓ ¿ÀºêÁ§Æ® Ã£°í ¹è¿­ ÇüÅÂ·Î ¹İÈ¯
+        // FindGameObjectsWithTag -> íŠ¹ì • íƒœê·¸ë¥¼ ê°€ì§„ ëª¨ë“  ê²Œì„ ì˜¤ë¸Œì íŠ¸ ì°¾ê³  ë°°ì—´ í˜•íƒœë¡œ ë°˜í™˜
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         Debug.Log(enemies.Length);
         for (int i = 0; i < enemies.Length; i++) 
